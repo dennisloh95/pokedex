@@ -1,15 +1,26 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { pokemonApi } from "../utils/config";
+import { POKE_API } from "../utils/config";
+import {
+  convertDecimeterToCentimeter,
+  convertHectogramstoKilograms,
+} from "../utils/functions";
 
 const Pokemon = () => {
   let { pokemonIndex } = useParams();
+  const [pokemonInfo, setPokemonInfo] = useState(null);
 
   useEffect(() => {
-    fetch(`${pokemonApi}${pokemonIndex}`).then(async (res) => {
+    let finalData: any = {};
+    fetch(`${POKE_API}${pokemonIndex}`).then(async (res) => {
       if (res.ok) {
         const data = await res.json();
-        console.log(data.name);
+        console.log(data);
+
+        finalData["height"] = convertDecimeterToCentimeter(data.height);
+        finalData["weight"] = convertHectogramstoKilograms(data.weight);
+
+        console.log({ finalData });
       }
     });
   }, []);

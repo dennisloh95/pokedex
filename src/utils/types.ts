@@ -32,3 +32,10 @@ export interface PokemonCardType {
   name: string;
   imageUrl: string;
 }
+
+export interface PaginationTypes {
+  totalCount: number;
+  pageSize: number;
+  siblingCount?: number;
+  currentPage: number;
+}

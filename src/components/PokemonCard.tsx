@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { prettifyIndex } from "../utils/functions";
 import { PokemonCardType } from "../utils/types";
 
 interface IProps {
@@ -11,9 +12,15 @@ const PokemonCard = ({ data: { name, index, imageUrl } }: IProps) => {
       <div className="relative bg-white shadow-xl rounded-lg p-5 ">
         <div className="flex justify-between">
           <div className="capitalize font-bold">{name}</div>
-          <div>#{index}</div>
+          <div>#{prettifyIndex(index)}</div>
         </div>
-        <img src={imageUrl} alt={name} />
+        <img
+          className="object-cover w-[80px] h-[80px]"
+          src={imageUrl}
+          alt={name}
+          width="80"
+          height="80"
+        />
       </div>
     </Link>
   );
