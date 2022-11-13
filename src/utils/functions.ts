@@ -5,7 +5,7 @@ import {
   POKE_API,
   POKE_SPECIES_API,
 } from "./config";
-import { PokemonSpeciesTypes } from "./types";
+import { PokemonInfoTypes, PokemonSpeciesTypes } from "./types";
 
 const range = (start: number, end: number) => {
   let length = end - start + 1;
@@ -52,12 +52,39 @@ const getPokemonDescription = (
   return description;
 };
 
+const convertBytesToKilobytes = (bytes: number) => (bytes / 1000).toFixed(2);
+
+const cleanUpPokemonAbility = (ability: string) =>
+  ability.toLocaleLowerCase().split("-").join(" ");
+
+const getBase64 = (file: File): Promise<string | ArrayBuffer> => {
+  return new Promise((resolve) => {
+    let fileInfo;
+    let baseURL;
+    // Make new FileReader
+    let reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    // on reader load somthing...
+    reader.onload = () => {
+      // Make a fileInfo Object
+      // console.log("Called", reader);
+      baseURL = reader.result;
+      // console.log(baseURL);
+      resolve(baseURL || "");
+    };
+  });
+};
+
 export {
   range,
+  getBase64,
   getPokemonSpriteUrl,
   convertDecimeterToCentimeter,
   convertHectogramstoKilograms,
   prettifyIndex,
   getPaginationUrl,
   getPokemonDescription,
+  cleanUpPokemonAbility,
+  convertBytesToKilobytes,
 };

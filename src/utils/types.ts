@@ -24,7 +24,7 @@ export interface PokemonSpeciesTypes {
 }
 
 export interface PokemonData {
-  id: number;
+  id: string;
   name: string;
   isLegendary: boolean;
   description: string;
@@ -32,7 +32,8 @@ export interface PokemonData {
   abilities: { name: string; isHidden: boolean }[];
   height: number;
   weight: number;
-  imageUrl: string;
+  imageUrl?: string;
+  custom?: boolean;
 }
 export interface PokemonResult {
   name: string;
@@ -42,7 +43,8 @@ export interface PokemonResult {
 export interface PokemonCardType {
   index: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
+  isCustom?: boolean;
 }
 
 export interface PaginationTypes {

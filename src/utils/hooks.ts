@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useMemo, useReducer } from "react";
 import { DOTS, POKE_API, POKE_SPECIES_API } from "./config";
 import {
+  cleanUpPokemonAbility,
+  convertDecimeterToCentimeter,
+  convertHectogramstoKilograms,
   getPaginationUrl,
   getPokemonDescription,
   getPokemonSpriteUrl,
@@ -13,8 +16,10 @@ import {
   PokemonCardType,
   PokemonData,
   PokemonInfoTypes,
+  PokemonResult,
   PokemonSpeciesTypes,
 } from "./types";
+import { useCustomPokemon } from "../store";
 
 const useDebounce = <T>(val: T, delay?: number): T => {
   const [value, setVal] = useState<T>(val);
@@ -164,7 +169,7 @@ const usePokemonListing = <T>(page?: T) => {
   const [pokemons, setPokemons] = useState<PokemonCardType[]>([]);
 
   const { data, error, loading } = useFetch<{
-    results: { name: string; url: string }[];
+    results: PokemonResult[];
   }>(getPaginationUrl(page));
 
   useEffect(() => {
@@ -186,6 +191,12 @@ const usePokemonListing = <T>(page?: T) => {
 
 const usePokemonInfo = (index: string) => {
   const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
+  const customPokemons = useCustomPokemon((state) => state.customPokemons);
+
+  if (index.includes("-c") && customPokemons?.length) {
+    const result = customPokemons.filter((pokemon) => pokemon.id === index)[0];
+    return { pokemonData: result, loading: false };
+  }
 
   const { data: pokeInfo, loading: pokeInfoLoading } =
     useFetch<PokemonInfoTypes>(`${POKE_API}${index}`);
@@ -195,17 +206,17 @@ const usePokemonInfo = (index: string) => {
   useEffect(() => {
     if (pokeInfo && pokeSpecies) {
       setPokemonData({
-        id: pokeSpecies.id,
+        id: pokeSpecies.id.toString(),
         name: pokeSpecies.name,
         isLegendary: pokeSpecies.is_legendary || pokeSpecies.is_mythical,
         description: getPokemonDescription(pokeSpecies.flavor_text_entries),
         types: pokeInfo.types.map((typ) => ({ name: typ.type.name })),
-        abilities: pokeInfo.abilities.map((abi) => ({
-          name: abi.ability.name.toLowerCase().split("-").join(" "),
-          isHidden: abi.is_hidden,
+        abilities: pokeInfo.abilities.map((ability) => ({
+          name: cleanUpPokemonAbility(ability.ability.name),
+          isHidden: ability.is_hidden,
         })),
-        height: pokeInfo.height,
-        weight: pokeInfo.weight,
+        height: convertDecimeterToCentimeter(pokeInfo.height),
+        weight: convertHectogramstoKilograms(pokeInfo.weight),
         imageUrl: getPokemonSpriteUrl(index),
       });
     }

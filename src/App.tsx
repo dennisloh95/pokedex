@@ -1,10 +1,6 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
+import CustomPokedex from "./pages/CustomPokedex";
 import Home from "./pages/Home";
 import Pokemon from "./pages/Pokemon";
 
@@ -16,6 +12,10 @@ function App() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/custom-pokedex",
+          element: <CustomPokedex />,
         },
         {
           path: "/pokemon/:pokemonIndex",

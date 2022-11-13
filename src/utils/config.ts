@@ -6,6 +6,8 @@ const MAX_DEX_ID = 905;
 const ITEMS_PER_PAGE = 20;
 const DOTS: "..." = "...";
 const CONTAINER_STYLE = "container mx-auto px-4";
+const POKE_ABILITY_API = "https://pokeapi.co/api/v2/ability/?limit=327";
+const MAX_LOCAL_IMG_SIZE = 200;
 
 const TYPE_COLORS: Record<string, string> = {
   bug: "B1C12E",
@@ -13,7 +15,7 @@ const TYPE_COLORS: Record<string, string> = {
   dragon: "755EDF",
   electric: "FCBC17",
   fairy: "F4B1F4",
-  fighting: "823551D",
+  fighting: "823551",
   fire: "E73B0C",
   flying: "A3B3F7",
   ghost: "6060B2",
@@ -37,4 +39,6 @@ export {
   POKE_SPECIES_API,
   ITEMS_PER_PAGE,
   TYPE_COLORS,
+  POKE_ABILITY_API,
+  MAX_LOCAL_IMG_SIZE,
 };

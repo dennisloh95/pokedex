@@ -1,13 +1,9 @@
-import React from "react";
 import { PokemonData } from "../utils/types";
 import { GiWeight, GiBodyHeight } from "react-icons/gi";
 import { TbPokeball } from "react-icons/tb";
-import {
-  convertDecimeterToCentimeter,
-  convertHectogramstoKilograms,
-  prettifyIndex,
-} from "../utils/functions";
+import { prettifyIndex } from "../utils/functions";
 import { TYPE_COLORS } from "../utils/config";
+import { useEffect } from "react";
 
 const PokemonDetail = ({
   name,
@@ -31,16 +27,20 @@ const PokemonDetail = ({
           height="200"
         />
         <div>
-          <p className="text-gray-500 font-bold">
-            #{prettifyIndex(id.toString())}
-          </p>
+          <p className="text-gray-500 font-bold">#{prettifyIndex(id)}</p>
           <p className="capitalize text-3xl font-bold mb-1">{name}</p>
           <div className="flex gap-1">
             {types.map(({ name }) => (
               <p
                 key={name}
                 className="text-white text-xs uppercase py-1 px-2 rounded-md text-center font-bold"
-                style={{ backgroundColor: `#${TYPE_COLORS[name]}` }}
+                style={{
+                  backgroundColor: `#${
+                    TYPE_COLORS[name] !== undefined
+                      ? TYPE_COLORS[name]
+                      : "000000"
+                  }`,
+                }}
               >
                 {name}
               </p>
@@ -52,9 +52,7 @@ const PokemonDetail = ({
                 <GiWeight />
                 <p className="uppercase ml-1 text-xs font-bold">Weight</p>
               </div>
-              <p className="text-2xl mt-2">
-                {convertHectogramstoKilograms(weight)} kg
-              </p>
+              <p className="text-2xl mt-2">{weight} kg</p>
             </div>
 
             <div className="p-3 ">
@@ -62,9 +60,7 @@ const PokemonDetail = ({
                 <GiBodyHeight />
                 <p className="uppercase ml-1 text-xs font-bold">Height</p>
               </div>
-              <p className="text-2xl mt-2">
-                {convertDecimeterToCentimeter(height)} cm
-              </p>
+              <p className="text-2xl mt-2">{height} cm</p>
             </div>
 
             <div className="p-3 ">
@@ -97,7 +93,7 @@ const PokemonDetail = ({
 export const PokemonDetailSkeleton = () => {
   return (
     <div className="container mx-auto px-4">
-      <div role="status" className="">
+      <div role="status" className="animate-pulse">
         <div className="flex gap-3 flex-col sm:flex-row mb-3">
           <div className="flex justify-center items-center w-full h-[200px] sm:max-w-[200px] mx-auto sm:mx-0 bg-gray-300 rounded ">
             <svg
