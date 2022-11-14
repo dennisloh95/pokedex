@@ -8,7 +8,7 @@ import {
   getPokemonDescription,
   getPokemonSpriteUrl,
   range,
-} from "./functions";
+} from "./helpers";
 import {
   FetchActionTypes,
   FetchTypes,

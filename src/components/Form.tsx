@@ -9,7 +9,7 @@ import {
   cleanUpPokemonAbility,
   convertBytesToKilobytes,
   getBase64,
-} from "../utils/functions";
+} from "../utils/helpers";
 import { useFetch } from "../utils/hooks";
 import { PokemonData, PokemonResult } from "../utils/types";
 import { useCustomPokemon } from "../store";

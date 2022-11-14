@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { prettifyIndex } from "../utils/functions";
+import { prettifyIndex } from "../utils/helpers";
 import { PokemonCardType } from "../utils/types";
 import { TbEdit, TbTrash } from "react-icons/tb";
 import DeleteModal from "./DeleteModal";

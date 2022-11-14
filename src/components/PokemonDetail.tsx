@@ -1,7 +1,7 @@
 import { PokemonData } from "../utils/types";
 import { GiWeight, GiBodyHeight } from "react-icons/gi";
 import { TbPokeball } from "react-icons/tb";
-import { prettifyIndex } from "../utils/functions";
+import { prettifyIndex } from "../utils/helpers";
 import { TYPE_COLORS } from "../utils/config";
 
 const PokemonDetail = ({
