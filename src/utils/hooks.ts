@@ -105,18 +105,23 @@ const usePagination = ({
   return paginationRange;
 };
 
+type Cache<T> = { [url: string]: T };
+
 const useFetch = <T = unknown>(
   url?: string,
   options?: RequestInit
 ): FetchTypes<T> => {
+  const cache = useRef<Cache<T>>({});
+
   const cancelRequest = useRef<boolean>(false);
 
   const initialState: FetchTypes<T> = {
     data: undefined,
     error: undefined,
-    loading: false,
+    loading: true,
   };
 
+  // refererence from https://usehooks-ts.com/react-hook/use-fetch, but add loading state
   const fetchReducer = (
     state: FetchTypes<T>,
     action: FetchActionTypes<T>
@@ -140,16 +145,22 @@ const useFetch = <T = unknown>(
     cancelRequest.current = false;
     const fetchData = async () => {
       dispatch({ type: "loading" });
+
+      if (cache.current[url]) {
+        dispatch({ type: "fetched", payload: cache.current[url] });
+        return;
+      }
+
       try {
         const response = await fetch(url, options);
 
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new Error(response.status.toString());
         }
 
         const data = (await response.json()) as T;
+        cache.current[url] = data;
         if (cancelRequest.current) return;
-
         dispatch({ type: "fetched", payload: data });
       } catch (error) {
         if (cancelRequest.current) return;
@@ -195,15 +206,27 @@ const usePokemonInfo = (index: string) => {
 
   if (index.includes("-c") && customPokemons?.length) {
     const result = customPokemons.filter((pokemon) => pokemon.id === index)[0];
+    if (result === undefined) {
+      throw new Error("No Pokémon data found.");
+    }
     return { pokemonData: result, loading: false };
   }
 
-  const { data: pokeInfo, loading: pokeInfoLoading } =
-    useFetch<PokemonInfoTypes>(`${POKE_API}${index}`);
-  const { data: pokeSpecies, loading: pokeSpeciesLoading } =
-    useFetch<PokemonSpeciesTypes>(`${POKE_SPECIES_API}${index}`);
+  const {
+    data: pokeInfo,
+    loading: pokeInfoLoading,
+    error: pokeInfoError,
+  } = useFetch<PokemonInfoTypes>(`${POKE_API}${index}`);
+  const {
+    data: pokeSpecies,
+    loading: pokeSpeciesLoading,
+    error: pokeSpeciesError,
+  } = useFetch<PokemonSpeciesTypes>(`${POKE_SPECIES_API}${index}`);
 
   useEffect(() => {
+    if (pokeSpeciesError || pokeSpeciesError) {
+      throw new Error("No Pokémon data found.");
+    }
     if (pokeInfo && pokeSpecies) {
       setPokemonData({
         id: pokeSpecies.id.toString(),
@@ -220,7 +243,7 @@ const usePokemonInfo = (index: string) => {
         imageUrl: getPokemonSpriteUrl(index),
       });
     }
-  }, [pokeInfo, pokeSpecies]);
+  }, [pokeInfo, pokeSpecies, pokeInfoError, pokeSpeciesError]);
 
   return { pokemonData, loading: pokeInfoLoading || pokeSpeciesLoading };
 };

@@ -4,14 +4,13 @@ import { usePokemonInfo } from "../utils/hooks";
 import PokemonDetail, {
   PokemonDetailSkeleton,
 } from "../components/PokemonDetail";
-import { useEffect } from "react";
 
 const Pokemon = () => {
   const { pokemonIndex } = useParams<keyof { pokemonIndex: string }>() as {
     pokemonIndex: string;
   };
 
-  const { pokemonData } = usePokemonInfo(pokemonIndex);
+  const { pokemonData, loading } = usePokemonInfo(pokemonIndex);
 
   if (!pokemonData) {
     return <PokemonDetailSkeleton />;

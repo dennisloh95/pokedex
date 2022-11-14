@@ -5,11 +5,15 @@ import PokemonListing from "../components/PokemonListing";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
-  const { pokemons } = usePokemonListing(searchParams.get("page"));
+  const { pokemons, loading } = usePokemonListing(searchParams.get("page"));
 
   return (
     <div className={CONTAINER_STYLE}>
-      <PokemonListing pokemons={pokemons} totalItems={MAX_DEX_ID} />
+      <PokemonListing
+        pokemons={pokemons}
+        loading={loading}
+        totalItems={MAX_DEX_ID}
+      />
     </div>
   );
 };

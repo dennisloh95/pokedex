@@ -12,7 +12,16 @@ const Header = () => {
       <div className={`${CONTAINER_STYLE} py-4`}>
         <div className="flex justify-between items-end ">
           <Link to="/">
-            <h1 className="text-3xl font-bold">Pokédex</h1>
+            <div className="flex items-center">
+              <img
+                src={"/icon.png"}
+                alt="icon"
+                className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px]"
+                width={50}
+                height={50}
+              />
+              <h1 className="text-2xl sm:text-3xl font-bold ml-1">Pokédex</h1>
+            </div>
           </Link>
           <button
             onClick={() => setOpenAddModal(true)}

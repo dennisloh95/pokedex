@@ -1,22 +1,30 @@
 import { useSearchParams } from "react-router-dom";
 import { ITEMS_PER_PAGE } from "../utils/config";
 import Pagination from "./Pagination";
-import PokemonCard from "./PokemonCard";
+import PokemonCard, { PokemonCardSkeleton } from "./PokemonCard";
 import { PokemonCardType } from "../utils/types";
 
 const PokemonListing = ({
   pokemons,
   totalItems,
+  loading,
 }: {
   pokemons: PokemonCardType[];
   totalItems: number;
+  loading?: boolean;
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <>
       <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {pokemons.length ? (
+        {loading ? (
+          <>
+            {new Array(8).fill(null).map(() => (
+              <PokemonCardSkeleton />
+            ))}
+          </>
+        ) : pokemons.length ? (
           pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.index} data={pokemon} />
           ))

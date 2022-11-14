@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import CustomPokedex from "./pages/CustomPokedex";
+import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Pokemon from "./pages/Pokemon";
 
@@ -8,6 +9,7 @@ function App() {
   const router = createBrowserRouter([
     {
       element: <Layout />,
+      errorElement: <Error />,
       children: [
         {
           path: "/",

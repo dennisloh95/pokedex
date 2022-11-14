@@ -3,7 +3,6 @@ import { GiWeight, GiBodyHeight } from "react-icons/gi";
 import { TbPokeball } from "react-icons/tb";
 import { prettifyIndex } from "../utils/functions";
 import { TYPE_COLORS } from "../utils/config";
-import { useEffect } from "react";
 
 const PokemonDetail = ({
   name,
@@ -25,6 +24,10 @@ const PokemonDetail = ({
           alt={name}
           width="200"
           height="200"
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = "/no-img-found.png";
+          }}
         />
         <div>
           <p className="text-gray-500 font-bold">#{prettifyIndex(id)}</p>
