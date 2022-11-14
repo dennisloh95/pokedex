@@ -42,6 +42,7 @@ pokedex/
 │  │  └─ helpers.ts
 │  │  └─ hooks.ts
 │  │  └─ types.ts
+└─ test/
 ```
 
 | Directory            | Description                                   |
@@ -53,3 +54,4 @@ pokedex/
 | `/src/utils/helpers` | Define helpers functions                      |
 | `/src/utils/hooks`   | Define custom hooks                           |
 | `/src/utils/types`   | Define reusable typescript types              |
+| `/src/test`          | Some Unit testing                             |

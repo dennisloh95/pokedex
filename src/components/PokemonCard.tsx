@@ -3,7 +3,7 @@ import { prettifyIndex } from "../utils/helpers";
 import { PokemonCardType } from "../utils/types";
 import { TbEdit, TbTrash } from "react-icons/tb";
 import DeleteModal from "./DeleteModal";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import EditModal from "./EditModal";
 
 interface IProps {
@@ -18,7 +18,7 @@ const PokemonCard = ({ data: { name, index, imageUrl, isCustom } }: IProps) => {
   return (
     <>
       <Link to={`/pokemon/${index}`}>
-        <div className="relative bg-white shadow-xl rounded-lg p-5 h-full">
+        <div className="relative bg-white shadow-xl rounded-lg p-5 h-full overflow-hidden">
           <div className="flex justify-between">
             <div className="capitalize font-bold">{name}</div>
             <div>#{prettifyIndex(index)}</div>

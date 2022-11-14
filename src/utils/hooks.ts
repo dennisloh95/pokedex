@@ -179,6 +179,10 @@ const useFetch = <T = unknown>(
 const usePokemonListing = <T>(page?: T) => {
   const [pokemons, setPokemons] = useState<PokemonCardType[]>([]);
 
+  if (page && page < 1) {
+    throw new Error("No Pokémon data found.");
+  }
+
   const { data, error, loading } = useFetch<{
     results: PokemonResult[];
   }>(getPaginationUrl(page));
@@ -224,7 +228,7 @@ const usePokemonInfo = (index: string) => {
   } = useFetch<PokemonSpeciesTypes>(`${POKE_SPECIES_API}${index}`);
 
   useEffect(() => {
-    if (pokeSpeciesError || pokeSpeciesError) {
+    if (pokeInfoError || pokeSpeciesError) {
       throw new Error("No Pokémon data found.");
     }
     if (pokeInfo && pokeSpecies) {

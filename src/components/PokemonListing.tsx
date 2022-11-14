@@ -20,8 +20,8 @@ const PokemonListing = ({
       <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {loading ? (
           <>
-            {new Array(8).fill(null).map(() => (
-              <PokemonCardSkeleton />
+            {new Array(8).fill(null).map((_, index) => (
+              <PokemonCardSkeleton key={index} />
             ))}
           </>
         ) : pokemons.length ? (
