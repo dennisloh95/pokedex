@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 import { useCustomPokemon } from "../store";
 import Form from "./Form";
 import Modal from "./Modal";
@@ -25,4 +25,4 @@ const EditModal = ({
   );
 };
 
-export default EditModal;
+export default memo(EditModal);

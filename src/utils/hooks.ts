@@ -144,8 +144,6 @@ const useFetch = <T = unknown>(
     if (!url) return;
     cancelRequest.current = false;
     const fetchData = async () => {
-      dispatch({ type: "loading" });
-
       if (cache.current[url]) {
         dispatch({ type: "fetched", payload: cache.current[url] });
         return;

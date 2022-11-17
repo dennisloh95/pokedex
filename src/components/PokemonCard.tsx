@@ -3,7 +3,7 @@ import { prettifyIndex } from "../utils/helpers";
 import { PokemonCardType } from "../utils/types";
 import { TbEdit, TbTrash } from "react-icons/tb";
 import DeleteModal from "./DeleteModal";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import EditModal from "./EditModal";
 
 interface IProps {
@@ -14,6 +14,14 @@ interface IProps {
 const PokemonCard = ({ data: { name, index, imageUrl, isCustom } }: IProps) => {
   const [onDeleteId, setOnDeleteId] = useState("");
   const [onEditId, setOnEditId] = useState("");
+
+  const handleDeleteClose = useCallback(() => {
+    setOnDeleteId("");
+  }, []);
+
+  const handleEditClose = useCallback(() => {
+    setOnEditId("");
+  }, []);
 
   return (
     <>
@@ -62,17 +70,20 @@ const PokemonCard = ({ data: { name, index, imageUrl, isCustom } }: IProps) => {
           )}
         </div>
       </Link>
-
-      <DeleteModal
-        id={index}
-        targetId={onDeleteId}
-        handleClose={() => setOnDeleteId("")}
-      />
-      <EditModal
-        id={index}
-        targetId={onEditId}
-        handleClose={() => setOnEditId("")}
-      />
+      {isCustom && (
+        <>
+          <DeleteModal
+            id={index}
+            targetId={onDeleteId}
+            handleClose={handleDeleteClose}
+          />
+          <EditModal
+            id={index}
+            targetId={onEditId}
+            handleClose={handleEditClose}
+          />
+        </>
+      )}
     </>
   );
 };

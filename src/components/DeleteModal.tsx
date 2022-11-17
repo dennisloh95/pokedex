@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useCustomPokemon } from "../store";
 import Modal from "./Modal";
 
@@ -48,4 +49,4 @@ const DeleteModal = ({
   );
 };
 
-export default DeleteModal;
+export default memo(DeleteModal);
